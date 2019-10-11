@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "demo"
+version = "0.1.0"
+description = "A DRF demo"
+authors = ["Santiago Fraire Willemoes <santiwilly@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.6"
+django = "^2.1"
+djangorestframework = "^3.10"
+markdown = "^3.0"
+coreapi = "^2.3"
+gunicorn = "^19.9"
+pyyaml = "^5.1.2"
+django-filter = "^2.2.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.5"
+mypy = "^0.630.0"
+black = "^18.3-alpha.0"
+ipython = "^7.0"
+factory_boy = "^2.12.0"

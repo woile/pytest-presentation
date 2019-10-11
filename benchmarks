@@ -1,0 +1,39 @@
+## Clients
+> artillery quick --count 10 -n 20 http://localhost:8000/clients/
+All virtual users finished
+Summary report @ 17:33:44(+0200) 2019-09-23
+  Scenarios launched:  10
+  Scenarios completed: 10
+  Requests completed:  200
+  RPS sent: 17.56
+  Request latency:
+    min: 16.2
+    max: 768.7
+    median: 540.8
+    p95: 680.1
+    p99: 711.6
+  Scenario counts:
+    0: 10 (100%)
+  Codes:
+    200: 200
+
+## CLients output
+> artillery quick --count 10 -n 20 http://localhost:8000/clients-output/
+All virtual users finished
+Summary report @ 17:34:58(+0200) 2019-09-23
+  Scenarios launched:  10
+  Scenarios completed: 10
+  Requests completed:  200
+  RPS sent: 10.9
+  Request latency:
+    min: 40.8
+    max: 1142.1
+    median: 917.4
+    p95: 1026
+    p99: 1105.2
+  Scenario counts:
+    0: 10 (100%)
+  Codes:
+    200: 200
+
+540.8/917.4 => 41% faster
