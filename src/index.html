@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/reveal.css" />
-    <link rel="stylesheet" href="css/theme/black.css" />
+    <link rel="stylesheet" href="css/theme/night.css" />
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/monokai.css" />
@@ -37,16 +37,149 @@
       .bigger {
         font-size: 70px;
       }
+      .container {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
     </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+
         <section>
           <h2>
             Pytest supercharged
           </h2>
         </section>
+
+        <section>
+          <h3>About testing</h3>
+          <p>It is an essential part of the lifecycle of a project</p>
+          <ul class="fragment">
+            <li>Guarantees a certain behaviour</li>
+            <li>Catch bugs early</li>
+          </ul>
+          <aside class="notes">
+            behaviour like your business logic, failure is also business logic
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h3>The core of pytest</h3>
+            <img src="/images/dive.gif" alt="dive into it" />
+          </section>
+          <section>
+            <p>
+              Detailed info on failing asserts
+            </p>
+            <div class="container">
+              <div class="col">
+                <pre><code>
+# pytest
+def test_location():
+  location = get_location()
+  assert (
+    location == "bordeaux"
+  )
+  </code></pre>
+              </div>
+              <div class="col">
+                <pre><code>
+# unittest
+def test_location(self):
+  location = get_location()
+  self.assertEqual(
+    location, "bordeaux"
+  )
+  </code></pre>
+              </div>
+            </div>
+            <p class="fragment">Demo 1</p>
+            <aside class="notes">
+              no need for unittest
+            </aside>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## test auto-discovery
+
+              ```bash
+              pytest path?
+              ```
+              ```bash
+              test_*.py or *_test.py
+              ```
+
+              <aside class="notes">
+                <ul>
+                  <li>
+                    auto find files or provide path
+                  </li>
+                  <li>
+                    files should begin or end with test
+                  </li>
+                  <li>
+                    class should start with Test and functions with test
+                  </li>
+                </ul>
+              </aside>
+            </textarea>
+          </section>
+          <section>
+            <h3>Support for unittests</h3>
+            - more informative tracebacks
+            - select specific tests (-k)
+            - run marked tests (-m)
+          </section>
+        </section>
+
+        <section>
+          <h3>Tests as documentation</h3>
+
+          Your tests should reflect how to properly use the different components
+          of your python project
+        </section>
+
+        <section>
+          <section>
+            <h3>Fixtures</h3>
+          </section>
+        </section>
+
+        <section>
+          <h3>Parametrize</h3>
+        </section>
+
+        <section>pytest conf</section>
+
+        <section>
+          <section>
+            <h3>Mocks</h3>
+          </section>
+          <section>
+            - Understanding mocks
+          </section>
+          <section>
+            - Using mocks
+          </section>
+        </section>
+
+        <section>
+          <h3>Refactoring with tests in mind</h3>
+        </section>
+
+        <section>
+          <h3>TDD</h3>
+        </section>
+
+        <section>
+          <h3>Plugins</h3>
+        </section>
+
       </div>
     </div>
 
