@@ -48,7 +48,6 @@
   <body>
     <div class="reveal">
       <div class="slides">
-
         <section>
           <h2>
             Pytest supercharged
@@ -131,23 +130,56 @@ def test_location(self):
           </section>
           <section>
             <h3>Support for unittests</h3>
-            - more informative tracebacks
-            - select specific tests (-k)
-            - run marked tests (-m)
+            <ul>
+              <li>more informative tracebacks</li>
+              <li>select specific tests (-k)</li>
+              <li>run marked tests (-m)</li>
+            </ul>
+            <p class="fragment">
+              Demo 2
+            </p>
           </section>
         </section>
 
         <section>
-          <h3>Tests as documentation</h3>
+          <section>
+            <h3>Tests as documentation</h3>
 
-          Your tests should reflect how to properly use the different components
-          of your python project
+            Your tests should reflect how to properly use your software
+            <p class="fragment">Let's see...</p>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              def test_list_customers():
+                data = factory_dict('Customer')
+
+              ```
+             </textarea
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              def test_list_customers():
+                payload = {
+                  "name": "Jon",
+                  "id": 12
+                }
+                response = self.client.post('customers/', payload)
+                assert response.status == 200
+              ```
+             </textarea
+            >
+          </section>
         </section>
 
         <section>
           <section>
             <h3>Fixtures</h3>
+            <p>baseline upon which tests can reliably and repeatedly execute</p>
           </section>
+          <section></section>
         </section>
 
         <section>
@@ -173,13 +205,25 @@ def test_location(self):
         </section>
 
         <section>
-          <h3>TDD</h3>
+          <section>
+            <h3>TDD</h3>
+          </section>
+          <section>
+            - Clear goals
+            - Robust and simpler code
+            - Let the tests guide you, not requirements
+
+            ```python
+            def add(a,b):
+                return 4
+            assert add(3, 1) == 4
+            ```
+          </section>
         </section>
 
         <section>
           <h3>Plugins</h3>
         </section>
-
       </div>
     </div>
 
