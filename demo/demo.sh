@@ -49,5 +49,5 @@ function demo2() {
   rap "python -m pytest -s -m awesome tests/"
 }
 
-# demo1
+demo1
 demo2
