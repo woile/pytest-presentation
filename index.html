@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Pytest</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/night.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <style type="text/css">
+      .text-red {
+        color: red;
+      }
+
+      .text-green {
+        color: green;
+      }
+      .bigger {
+        font-size: 70px;
+      }
+      .container {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
+
+      .emoji {
+        margin: initial !important;
+        background: initial !important;
+        border: initial !important;
+        box-shadow: initial !important;
+      }
+    </style>
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>PYTEST</h1>
+          <h2>
+            YES, LET'S GO!
+          </h2>
+        </section>
+        <section>
+          <h3>About me</h3>
+          <div class="fragment">
+            <p>Santiago Fraire</p>
+            <p>Software Engineer</p>
+            <p>🇦🇷 ➡️ 🇳🇱</p>
+          </div>
+        </section>
+        <section>
+          <h3>About testing</h3>
+          <p>It is an essential part of the lifecycle of a project</p>
+          <ul>
+            <li>Catch bugs early</li>
+            <li>Guarantees a certain behaviour</li>
+          </ul>
+          <aside class="notes">
+            behaviour like your business logic, failure is also business logic
+          </aside>
+        </section>
+        <section>
+          <h3>Core philosphy of pytest</h3>
+          <img src="/images/dive.gif" alt="dive into it" />
+        </section>
+        <section>
+          <ul>
+            <li>Simple</li>
+            <li>Functional approach</li>
+            <li>Dependency injection</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>
+                no imports, no classes, just a function.
+              </li>
+              <li>
+                fixtures are referenced directly as arguments of a function
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="col">
+              <h4>Unittest</h4>
+              <img
+                height="500"
+                src="./images/small_ugly_kitchen.jpg"
+                alt="small ugly kitchen"
+              />
+            </div>
+            <div class="col fragment">
+              <h4>Pytest</h4>
+              <img
+                height="500"
+                src="./images/big_kitchen.jpg"
+                alt="big kitchen"
+              />
+            </div>
+          </div>
+        </section>
+        <section>
+          <section>
+            <h3>Info on failing asserts</h3>
+          </section>
+          <section>
+            <h4>Unittest on failure</h4>
+            <pre><code># unittest
+def test_location(self):
+  location = get_location()
+  self.assertEqual(location, "bordeaux")</code></pre>
+            <img src="./images/unittest_failed.png" alt="big kitchen" />
+          </section>
+
+          <section>
+            <h4>Pytest on failure</h4>
+            <pre><code># pytest
+def test_location():
+  location = get_location()
+  assert location == "bordeaux"</code></pre>
+            <img src="./images/pytest_failed.png" alt="big kitchen" />
+          </section>
+        </section>
+        <section>
+          <h3>And more</h3>
+          <ul>
+            <li>Support for unittests</li>
+            <li>More informative tracebacks</li>
+            <li>Select specific tests (-k EXPRESSION)</li>
+            <li>Filter marked tests (-m)</li>
+            <li>Run from last failed test (--lf)</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>Drop in replacement of unittest, almost everything works</li>
+              <li>dict diffing</li>
+            </ul>
+          </aside>
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## How to use
+
+              ```bash
+              $ pip install pytest
+              $ pytest PATH?
+              ```
+
+            </textarea>
+          </section>
+          <section data-markdown>
+
+            <textarea data-template>
+            ## Test autodiscovery
+            ```bash
+            # file prefix or suffix should be test
+            test_*.py or *_test.py
+            ```
+            ```python
+            # If class is used, must begin with Test
+            class TestUser:
+
+                # Test functions must begin with test_
+                def test_name(self):
+                    assert get_name() == "juan"
+            ```
+            </textarea>
+            <aside class="notes">
+                <ul>
+                  <li>
+                    auto find files or provide path
+                  </li>
+                  <li>
+                    files should begin or end with test
+                  </li>
+                  <li>
+                    class should start with Test and functions with test
+                  </li>
+                </ul>
+              </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Tests as documentation</h3>
+
+            Your tests should reflect how to properly use your software
+            <p class="fragment">Let's see...</p>
+            TODO: FIND A GOOD EXAMPLE HERE
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              def test_list_customers():
+                data = factory_dict('Customer')
+
+              ```
+             </textarea
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              def test_list_customers():
+                payload = {
+                  "name": "Jon",
+                  "id": 12
+                }
+                response = self.client.post('customers/', payload)
+                assert response.status == 200
+              ```
+             </textarea
+            >
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Fixtures</h3>
+            <p>baseline upon which tests can reliably and repeatedly execute</p>
+          </section>
+          <section></section>
+        </section>
+
+        <section>
+          <h3>Parametrize</h3>
+        </section>
+
+        <section>pytest conf</section>
+
+        <section>
+          <section>
+            <h3>Mocks</h3>
+          </section>
+          <section>
+            - Understanding mocks
+          </section>
+          <section>
+            - Using mocks
+          </section>
+        </section>
+
+        <section>
+          <h3>Refactoring with tests in mind</h3>
+        </section>
+
+        <section>
+          <section>
+            <h3>TDD</h3>
+          </section>
+          <section>
+            - Clear goals - Robust and simpler code - Let the tests guide you,
+            not requirements ```python def add(a,b): return 4 assert add(3, 1)
+            == 4 ```
+          </section>
+        </section>
+
+        <section>
+          <h3>Plugins</h3>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+    <script src="/twemoji.min.js"></script>
+
+    <script>
+      Reveal.registerPlugin("myPlugin", {
+        init: () => {
+          return new Promise(resolve => setTimeout(resolve, 3000));
+        }
+      });
+      Reveal.addEventListener("ready", () =>
+        console.log("Three seconds later...")
+      );
+      Reveal.initialize({
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ],
+        markdown: {
+          smartypants: true
+        },
+        history: true
+      });
+      twemoji.parse(document.body);
+    </script>
+  </body>
+</html>
