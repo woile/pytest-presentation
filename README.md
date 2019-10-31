@@ -1,22 +1,18 @@
-# DRF Serializers
+# PYTEST: YES, LET's GO
 
-> This presentation explores DRF Serializers
+> Let's dive into pytest
 
-**WARNING: USE PYTHON 3 ONLY!!**
+## Overview
 
-## Demo
-
-Demo is inside `demo/` folder.
-
-Steps to start
-
-```python
-python3 -m venv venv
-. venv/bin/activate
-poetry install
-python manage.py migrate  # optional, db is provided
-python manage.py runserver
-```
+- About testing
+- Core philosphy of pytest
+- Unittest vs Pytest
+- How to use
+- Tests as documentation
+- Fixtures
+- Parametrize
+- Mocks
+- TDD
 
 ## Presentation
 
