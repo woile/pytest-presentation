@@ -140,7 +140,7 @@
         </section>
         <section>
           <section>
-            <h3>Nice and "good for the eye" traceback on failing asserts</h3>
+            <h3>Intuitive tracebacks</h3>
           </section>
           <section>
             <h4>Unittest on failure</h4>
@@ -284,7 +284,7 @@ def test_location():
           </section>
 
           <section data-markdown>
-              <textarea data-template>
+            <textarea data-template>
                 ### Example 2
 
                 ```python
@@ -293,10 +293,10 @@ def test_location():
                     assert new_version == expected
                 ```
                </textarea
-              >
-            </section>
-            <section data-markdown>
-              <textarea data-template>
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
                 ```python
                 def test_generate_version(test_input, expected):
                     current_version = test_input[0]
@@ -304,8 +304,9 @@ def test_location():
                     new_version = generate_version(current_version, increment)
                     assert new_version == expected
                 ```
-              </textarea>
-            </section>
+              </textarea
+            >
+          </section>
         </section>
 
         <section>
@@ -462,7 +463,7 @@ def test_generate_version(test_input, expected):
           </section>
           <section data-markdown>
             <textarea data-template>
-              - Configure pytest programattically
+              - Configure pytest programmatically
               - Parse arguments
             </textarea>
             <aside class="notes">
@@ -473,46 +474,95 @@ def test_generate_version(test_input, expected):
         <section>
           <section>
             <h3>Mocks</h3>
+            Mocks are callable and create attributes as new mocks when you
+            access them
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            Accessing the same attribute will always return the same mock.
+
+            ```
+            In [1]: from unittest import mock
+
+            In [2]: m = mock.Mock()
+
+            In [3]: m.get_users()
+            Out[3]: <Mock name='mock.get_users()' id='140454449888056'>
+
+            In [4]: m.get_users()
+            Out[4]: <Mock name='mock.get_users()' id='140454449888056'>
+
+            ```
+            </textarea>
           </section>
           <section>
-            - Understanding mocks
-          </section>
-          <section>
-            - Using mocks
+            <p>
+              <small>
+                Mocks record how you use them, allowing you to make assertions
+                about what your code has done to them
+              </small>
+            </p>
+
+            <pre><code>class Serializer:
+    def __init__(self, protocol):
+        self.protocol = protocol
+
+    def serialize(self, payload):
+        return self.protocol.serialize(payload)
+
+mock_protocol = mock.Mock()
+s = Serializer(mock_protocol)
+payload = {"name": "jon"}
+s.serialize(payload)
+mock_protocol.serialize.assert_called_with(payload)</code></pre>
           </section>
         </section>
-
-        <section>
-          <h3>Refactoring with tests in mind</h3>
-        </section>
-
         <section>
           <section>
             <h3>TDD</h3>
+            <ul>
+              <li>Robust and simpler code</li>
+              <li>Let the tests guide you, not requirements</li>
+            </ul>
           </section>
           <section>
-            - Clear goals - Robust and simpler code - Let the tests guide you,
-            not requirements ```python def add(a,b): return 4 assert add(3, 1)
-            == 4 ``` Do TDD with Meetup class We have to add a status runnning
-            first over coming
+
           </section>
         </section>
-
+        <section>
+          <h3>Refactoring with tests in mind</h3>
+          <ul>
+            <li class="fragment">Benefit composition over inheritance</li>
+            <li class="fragment">Easy to test usually means easy to use</li>
+          </ul>
+        </section>
         <section>
           <h3>Plugins</h3>
           <ul>
             <li>
-              <a href="https://pypi.org/project/pytest-django/">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://pypi.org/project/pytest-django/"
+              >
                 Pytest Django
               </a>
             </li>
             <li>
-              <a href="http://pypi.python.org/pypi/pytest-cov">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://pypi.python.org/pypi/pytest-cov"
+              >
                 Pytest Coverage
               </a>
             </li>
             <li>
-              <a href="https://github.com/pytest-dev/pytest-asyncio">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/pytest-dev/pytest-asyncio"
+              >
                 Pytest Asyncio
               </a>
             </li>
@@ -520,10 +570,65 @@ def test_generate_version(test_input, expected):
         </section>
         <section>
           <h3>Resources</h3>
-          <a
-            href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"
-            >classic xunit-style setup</a
-          >
+          <ul>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.pytest.org/en/latest/contents.html"
+                >Pytest Docs</a
+              >
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"
+              >
+                classic xunit-style setup
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://leanpub.com/clean-architectures-in-python"
+              >
+                Free Book: Clean architectures in Python
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Questions?</h3>
+          <div class="container">
+            <div class="col">
+              <ul>
+                <li>
+                  Twitter:
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://twitter.com/santiwilly"
+                    >@santiwilly</a
+                  >
+                </li>
+                <li>
+                  Github:
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://github.com/Woile"
+                    >Woile</a
+                  >
+                </li>
+                <li class="fragment">Thanks!</li>
+              </ul>
+            </div>
+            <div class="col">
+              <img src="./images/questions.gif" alt="questions" />
+            </div>
+          </div>
         </section>
       </div>
     </div>
