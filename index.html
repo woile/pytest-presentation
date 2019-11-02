@@ -50,6 +50,13 @@
         border: initial !important;
         box-shadow: initial !important;
       }
+
+      .img-no-border {
+        margin: initial !important;
+        background: initial !important;
+        border: initial !important;
+        box-shadow: initial !important;
+      }
     </style>
     <script>
       var link = document.createElement("link");
@@ -91,7 +98,7 @@
         </section>
         <section>
           <h3>Core philosphy of pytest</h3>
-          <img src="/images/dive.gif" alt="dive into it" />
+          <img src="./images/dive.gif" alt="dive into it" />
         </section>
         <section>
           <ul>
@@ -133,7 +140,7 @@
         </section>
         <section>
           <section>
-            <h3>Info on failing asserts</h3>
+            <h3>Nice and "good for the eye" traceback on failing asserts</h3>
           </section>
           <section>
             <h4>Unittest on failure</h4>
@@ -141,7 +148,11 @@
 def test_location(self):
   location = get_location()
   self.assertEqual(location, "bordeaux")</code></pre>
-            <img src="./images/unittest_failed.png" alt="big kitchen" />
+            <img
+              class="img-no-border"
+              src="./images/unittest_failed.png"
+              alt="big kitchen"
+            />
           </section>
 
           <section>
@@ -150,18 +161,36 @@ def test_location(self):
 def test_location():
   location = get_location()
   assert location == "bordeaux"</code></pre>
-            <img src="./images/pytest_failed.png" alt="big kitchen" />
+            <img
+              class="img-no-border"
+              src="./images/pytest_failed.png"
+              alt="big kitchen"
+            />
           </section>
         </section>
         <section>
           <h3>And more</h3>
+
           <ul>
             <li>Support for unittests</li>
-            <li>More informative tracebacks</li>
-            <li>Select specific tests (-k EXPRESSION)</li>
-            <li>Filter marked tests (-m)</li>
-            <li>Run from last failed test (--lf)</li>
+            <li>
+              Select specific tests (-k EXPRESSION)
+              <pre><code>pytest -k isupper tests/</code></pre>
+            </li>
+            <li>
+              Mark tests
+              <pre><code>@pytest.mark.skip</code></pre>
+              <pre><code>@pytest.mark.xfail</code></pre>
+            </li>
+            <li>
+              Filter marked tests (-m)
+              <pre><code>pytest -m awesome tests/</code></pre>
+            </li>
+            <li>
+              Run from last failed test (--lf)
+            </li>
           </ul>
+
           <aside class="notes">
             <ul>
               <li>Drop in replacement of unittest, almost everything works</li>
@@ -182,7 +211,6 @@ def test_location():
             </textarea>
           </section>
           <section data-markdown>
-
             <textarea data-template>
             ## Test autodiscovery
             ```bash
@@ -199,34 +227,43 @@ def test_location():
             ```
             </textarea>
             <aside class="notes">
-                <ul>
-                  <li>
-                    auto find files or provide path
-                  </li>
-                  <li>
-                    files should begin or end with test
-                  </li>
-                  <li>
-                    class should start with Test and functions with test
-                  </li>
-                </ul>
-              </aside>
+              <ul>
+                <li>
+                  auto find files or provide path
+                </li>
+                <li>
+                  files should begin or end with test
+                </li>
+                <li>
+                  class should start with Test and functions with test
+                </li>
+              </ul>
+            </aside>
           </section>
         </section>
         <section>
           <section>
-            <h3>Tests as documentation</h3>
+            <h3>TESTS ARE DOCUMENTATION</h3>
 
-            Your tests should reflect how to properly use your software
-            <p class="fragment">Let's see...</p>
-            TODO: FIND A GOOD EXAMPLE HERE
+            <aside class="notes">
+              <ul>
+                <li>
+                  They reflect how to properly use your software
+                </li>
+              </ul>
+            </aside>
           </section>
           <section data-markdown>
             <textarea data-template>
+              ### Example 1
               ```python
               def test_list_customers():
-                data = factory_dict('Customer')
-
+                  response = self.client.post('customers/', dict(
+                      id=12,
+                      name="Jon",
+                      phone_number="+31691638184"
+                  ))
+                  assert response.status == 200
               ```
              </textarea
             >
@@ -235,32 +272,204 @@ def test_location():
             <textarea data-template>
               ```python
               def test_list_customers():
-                payload = {
-                  "name": "Jon",
-                  "id": 12
-                }
-                response = self.client.post('customers/', payload)
-                assert response.status == 200
+                  payload = {
+                      "id": 12,
+                      "name": "Jon",
+                      "phone_number": "+31691638184"
+                  }
+                  response = self.client.post('customers/', payload)
+                  assert response.status == 200
               ```
-             </textarea
-            >
+            </textarea>
           </section>
+
+          <section data-markdown>
+              <textarea data-template>
+                ### Example 2
+
+                ```python
+                def test_generate_version(test_input, expected):
+                    new_version = generate_version(test_input[0], test_input[1])
+                    assert new_version == expected
+                ```
+               </textarea
+              >
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ```python
+                def test_generate_version(test_input, expected):
+                    current_version = test_input[0]
+                    increment = test_input[1]
+                    new_version = generate_version(current_version, increment)
+                    assert new_version == expected
+                ```
+              </textarea>
+            </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ### FIXTURES
+
+              <div class="fragment">
+
+              **Attachable functions**
+
+              ```python
+              @pytest.fixture
+              def new_customer():
+                  return {"name": "jon"}
+
+              def test_customer(new_customer):
+                  assert new_customer["name"] == "jon"
+              ```
+
+              [docs](https://docs.pytest.org/en/latest/fixture.html)
+
+              </div>
+
+            </textarea>
+            <aside class="notes">
+              Highly reusable
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Scopes</h3>
+            <ul>
+              <li>function (default)</li>
+              <li>class</li>
+              <li>module</li>
+              <li>package</li>
+              <li>session</li>
+            </ul>
+            <a
+              href="https://docs.pytest.org/en/latest/fixture.html#scope-sharing-a-fixture-instance-across-tests-in-a-class-module-or-session"
+              >Docs
+            </a>
+            <aside class="notes">
+              They are executed in order from higher scoped to lower
+            </aside>
+          </section>
+          <section>
+            <h4>Scope: "function"</h4>
+            <pre><code>@pytest.fixture()</code></pre>
+            <img
+              src="./images/scope_function.png"
+              height="500"
+              alt="scope function"
+              class="img-no-border"
+            />
+          </section>
+          <section>
+            <h4>Scope: "module"</h4>
+            <pre><code>@pytest.fixture(scope="module")</code></pre>
+            <img
+              src="./images/scope_module.png"
+              height="500"
+              alt="scope module"
+              class="img-no-border"
+            />
+          </section>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            #### Replace `setUp` and `tearDown`
+
+            ```python
+            @pytest.fixture()
+            def temp_file():
+                fd, path = tempfile.mkstemp()
+                with os.fdopen(fd, "w") as tmp:
+                    # do stuff with temp file
+                    tmp.write("stuff")
+                yield path
+                os.remove(path)
+
+
+            def test_istmp(temp_file):
+                assert "tmp" in temp_file
+            ```
+          </textarea>
+        </section>
+        <section>
+          <h4>
+            Factories
+          </h4>
+
+          <pre><code>@pytest.fixture()
+def new_customer():
+    def _new_customer(name):
+        return {"name": name}
+
+    return _new_customer
+
+
+def test_multi_customers(new_customer):
+    customer_1 = new_customer("jon")
+    customer_2 = new_customer("mike")
+
+    assert customer_1["name"] == "jon"
+    assert customer_2["name"] == "mike"</code></pre>
+        </section>
+        <section>
+          <h3>PARAMETRIZE</h3>
+
+          <pre><code>@pytest.mark.parametrize(
+    "test_input,expected",
+    [
+        (("2.0.0", "PATCH"), "2.0.1"),
+        (("2.0.1", "PATCH"), "2.0.2"),
+        (("2.0.2", "MINOR"), "2.1.0"),
+        (("2.1.0", "MAJOR"), "3.0.0"),
+    ],
+)
+def test_generate_version(test_input, expected):
+    new_version = generate_version(test_input[0], test_input[1])
+    assert new_version == expected</code></pre>
         </section>
 
         <section>
           <section>
-            <h3>Fixtures</h3>
-            <p>baseline upon which tests can reliably and repeatedly execute</p>
+            <h3>
+              Configuring pytest
+            </h3>
+            <ul class="fragment">
+              <li>pytest.ini</li>
+              <li>conftest.py</li>
+            </ul>
           </section>
-          <section></section>
+          <section data-markdown>
+            <textarea data-template>
+              Fixtures can be made available to every test in `conftest.py`
+
+              ```python
+              # test/conftest.py
+              @pytest.fixture
+              def new_user():
+                  return {"name": "jon"}
+              ```
+
+              ```
+              # test/test_user.py
+              def test_user(new_user):
+                  assert new_user["name"] == "jon"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              - Configure pytest programattically
+              - Parse arguments
+            </textarea>
+            <aside class="notes">
+              Some tests can be run only when a parameter is provided
+            </aside>
+          </section>
         </section>
-
-        <section>
-          <h3>Parametrize</h3>
-        </section>
-
-        <section>pytest conf</section>
-
         <section>
           <section>
             <h3>Mocks</h3>
@@ -284,12 +493,37 @@ def test_location():
           <section>
             - Clear goals - Robust and simpler code - Let the tests guide you,
             not requirements ```python def add(a,b): return 4 assert add(3, 1)
-            == 4 ```
+            == 4 ``` Do TDD with Meetup class We have to add a status runnning
+            first over coming
           </section>
         </section>
 
         <section>
           <h3>Plugins</h3>
+          <ul>
+            <li>
+              <a href="https://pypi.org/project/pytest-django/">
+                Pytest Django
+              </a>
+            </li>
+            <li>
+              <a href="http://pypi.python.org/pypi/pytest-cov">
+                Pytest Coverage
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/pytest-dev/pytest-asyncio">
+                Pytest Asyncio
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Resources</h3>
+          <a
+            href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"
+            >classic xunit-style setup</a
+          >
         </section>
       </div>
     </div>
