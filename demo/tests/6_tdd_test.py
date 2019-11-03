@@ -88,21 +88,13 @@ def test_meetup_start_bigger_end_raises_exception():
 
 
 TIME_VARIATIONS = [
-    (
-        datetime.now() - timedelta(days=1),
-        datetime.now() + timedelta(days=1),
-        "running",
-    ),
+    (datetime.now() - timedelta(days=1), datetime.now() + timedelta(days=1), "running"),
     (
         datetime.now() + timedelta(days=1),
         datetime.now() + timedelta(days=2),
         "coming_soon",
     ),
-    (
-        datetime.now() - timedelta(days=2),
-        datetime.now() - timedelta(days=1),
-        "over",
-    ),
+    (datetime.now() - timedelta(days=2), datetime.now() - timedelta(days=1), "over"),
 ]
 
 
