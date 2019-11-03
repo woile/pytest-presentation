@@ -7,6 +7,8 @@
     "start": "revealer --start",
     "serve": "revealer --serve",
     "build": "revealer --build build",
+    "build:contrast": "revealer --build build/contrast",
+    "build:both": "./scripts/build-with-contrast.sh",
     "deploy": "gh-pages -d build"
   },
   "keywords": [],

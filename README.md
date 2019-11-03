@@ -17,3 +17,11 @@
 ## Presentation
 
 Clone repository and run: `npm install && npm start`
+
+## Live presentation
+
+https://woile.github.io/pytest-presentation/
+
+for contrast
+
+https://woile.github.io/pytest-presentation/contrast
