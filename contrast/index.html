@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Pytest</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/beige.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <style type="text/css">
+      .text-red {
+        color: red;
+      }
+
+      .text-green {
+        color: green;
+      }
+      .bigger {
+        font-size: 70px;
+      }
+      .container {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
+
+      .emoji {
+        margin: initial !important;
+        background: initial !important;
+        border: initial !important;
+        box-shadow: initial !important;
+      }
+
+      .img-no-border {
+        margin: initial !important;
+        background: initial !important;
+        border: initial !important;
+        box-shadow: initial !important;
+      }
+    </style>
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>PYTEST</h1>
+          <h2>
+            YES, LET'S GO!
+          </h2>
+        </section>
+        <section>
+          <h3>About me</h3>
+          <p>Santiago Fraire</p>
+          <p>Software Engineer</p>
+          <p>🇦🇷 ➡️ 🇳🇱</p>
+        </section>
+        <section>
+          <h3>About testing</h3>
+          <p>It is an essential part of the lifecycle of a project</p>
+          <ul>
+            <li>Catch bugs early</li>
+            <li>Guarantees a certain behaviour</li>
+          </ul>
+          <aside class="notes">
+            behaviour like your business logic, failure is also business logic
+          </aside>
+        </section>
+        <section>
+          <h3>Core philosphy of pytest</h3>
+          <img src="./images/dive.gif" alt="dive into it" />
+        </section>
+        <section>
+          <ul>
+            <li>Simple</li>
+            <li>Functional approach</li>
+            <li>Dependency injection</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>
+                no imports, no classes, just a function.
+              </li>
+              <li>
+                fixtures are referenced directly as arguments of a function
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="col">
+              <h4>Unittest</h4>
+              <img
+                height="500"
+                src="./images/small_ugly_kitchen.jpg"
+                alt="small ugly kitchen"
+              />
+            </div>
+            <div class="col fragment">
+              <h4>Pytest</h4>
+              <img
+                height="500"
+                src="./images/big_kitchen.jpg"
+                alt="big kitchen"
+              />
+            </div>
+          </div>
+        </section>
+        <section>
+          <section>
+            <h3>Intuitive tracebacks</h3>
+          </section>
+          <section>
+            <h4>Unittest on failure</h4>
+            <pre><code># unittest
+def test_location(self):
+  location = get_location()
+  self.assertEqual(location, "bordeaux")</code></pre>
+            <img
+              class="img-no-border"
+              src="./images/unittest_failed.png"
+              alt="big kitchen"
+            />
+          </section>
+
+          <section>
+            <h4>Pytest on failure</h4>
+            <pre><code># pytest
+def test_location():
+  location = get_location()
+  assert location == "bordeaux"</code></pre>
+            <img
+              class="img-no-border"
+              src="./images/pytest_failed.png"
+              alt="big kitchen"
+            />
+          </section>
+        </section>
+        <section>
+          <h3>And more</h3>
+
+          <ul>
+            <li>Support for unittests</li>
+            <li>
+              Select specific tests (-k EXPRESSION)
+              <pre><code>pytest -k isupper tests/</code></pre>
+            </li>
+            <li>
+              Mark tests
+              <pre><code>@pytest.mark.skip</code></pre>
+              <pre><code>@pytest.mark.xfail</code></pre>
+            </li>
+            <li>
+              Filter marked tests (-m)
+              <pre><code>pytest -m awesome tests/</code></pre>
+            </li>
+            <li>
+              Run from last failed test (--lf)
+            </li>
+          </ul>
+
+          <aside class="notes">
+            <ul>
+              <li>Drop in replacement of unittest, almost everything works</li>
+              <li>dict diffing</li>
+            </ul>
+          </aside>
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## How to use
+
+              ```bash
+              $ pip install pytest
+              $ pytest PATH?
+              ```
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Test autodiscovery
+            ```bash
+            # file prefix or suffix should be test
+            test_*.py or *_test.py
+            ```
+            ```python
+            # If class is used, must begin with Test
+            class TestUser:
+
+                # Test functions must begin with test_
+                def test_name(self):
+                    assert get_name() == "juan"
+            ```
+            </textarea>
+            <aside class="notes">
+              <ul>
+                <li>
+                  auto find files or provide path
+                </li>
+                <li>
+                  files should begin or end with test
+                </li>
+                <li>
+                  class should start with Test and functions with test
+                </li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>TESTS ARE DOCUMENTATION</h3>
+
+            <aside class="notes">
+              <ul>
+                <li>
+                  They reflect how to properly use your software
+                </li>
+              </ul>
+            </aside>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Example 1
+              ```python
+              def test_list_customers():
+                  response = self.client.post('customers/', dict(
+                      id=12,
+                      name="Jon",
+                      phone_number="+31691638184"
+                  ))
+                  assert response.status == 200
+              ```
+             </textarea
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              def test_list_customers():
+                  payload = {
+                      "id": 12,
+                      "name": "Jon",
+                      "phone_number": "+31691638184"
+                  }
+                  response = self.client.post('customers/', payload)
+                  assert response.status == 200
+              ```
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+                ### Example 2
+
+                ```python
+                def test_generate_version(test_input, expected):
+                    new_version = generate_version(test_input[0], test_input[1])
+                    assert new_version == expected
+                ```
+               </textarea
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                ```python
+                def test_generate_version(test_input, expected):
+                    current_version = test_input[0]
+                    increment = test_input[1]
+                    new_version = generate_version(current_version, increment)
+                    assert new_version == expected
+                ```
+              </textarea
+            >
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ### FIXTURES
+
+              **Attachable functions**
+
+              ```python
+              @pytest.fixture
+              def new_customer():
+                  return {"name": "jon"}
+
+              def test_customer(new_customer):
+                  assert new_customer["name"] == "jon"
+              ```
+
+              [docs](https://docs.pytest.org/en/latest/fixture.html)
+
+            </textarea>
+            <aside class="notes">
+              Highly reusable
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Scopes</h3>
+            <ul>
+              <li>function (default)</li>
+              <li>class</li>
+              <li>module</li>
+              <li>package</li>
+              <li>session</li>
+            </ul>
+            <a
+              href="https://docs.pytest.org/en/latest/fixture.html#scope-sharing-a-fixture-instance-across-tests-in-a-class-module-or-session"
+              >Docs
+            </a>
+            <aside class="notes">
+              They are executed in order from higher scoped to lower
+            </aside>
+          </section>
+          <section>
+            <h4>Scope: "function"</h4>
+            <pre><code>@pytest.fixture()</code></pre>
+            <img
+              src="./images/scope_function.png"
+              height="500"
+              alt="scope function"
+              class="img-no-border"
+            />
+          </section>
+          <section>
+            <h4>Scope: "module"</h4>
+            <pre><code>@pytest.fixture(scope="module")</code></pre>
+            <img
+              src="./images/scope_module.png"
+              height="500"
+              alt="scope module"
+              class="img-no-border"
+            />
+          </section>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            #### Replace `setUp` and `tearDown`
+
+            ```python
+            @pytest.fixture()
+            def temp_file():
+                fd, path = tempfile.mkstemp()
+                with os.fdopen(fd, "w") as tmp:
+                    # do stuff with temp file
+                    tmp.write("stuff")
+                yield path
+                os.remove(path)
+
+
+            def test_istmp(temp_file):
+                assert "tmp" in temp_file
+            ```
+          </textarea>
+        </section>
+        <section>
+          <h4>
+            Factories
+          </h4>
+
+          <pre><code>@pytest.fixture()
+def new_customer():
+    def _new_customer(name):
+        return {"name": name}
+
+    return _new_customer
+
+
+def test_multi_customers(new_customer):
+    customer_1 = new_customer("jon")
+    customer_2 = new_customer("mike")
+
+    assert customer_1["name"] == "jon"
+    assert customer_2["name"] == "mike"</code></pre>
+        </section>
+        <section>
+          <h3>PARAMETRIZE</h3>
+
+          <pre><code>@pytest.mark.parametrize(
+    "test_input,expected",
+    [
+        (("2.0.0", "PATCH"), "2.0.1"),
+        (("2.0.1", "PATCH"), "2.0.2"),
+        (("2.0.2", "MINOR"), "2.1.0"),
+        (("2.1.0", "MAJOR"), "3.0.0"),
+    ],
+)
+def test_generate_version(test_input, expected):
+    new_version = generate_version(test_input[0], test_input[1])
+    assert new_version == expected</code></pre>
+        </section>
+
+        <section>
+          <section>
+            <h3>
+              Configuring pytest
+            </h3>
+            <ul class="fragment">
+              <li>pytest.ini</li>
+              <li>conftest.py</li>
+            </ul>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Fixtures can be made available to every test in `conftest.py`
+
+              ```python
+              # test/conftest.py
+              @pytest.fixture
+              def new_user():
+                  return {"name": "jon"}
+              ```
+
+              ```
+              # test/test_user.py
+              def test_user(new_user):
+                  assert new_user["name"] == "jon"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              - Configure pytest programmatically
+              - Parse arguments
+            </textarea>
+            <aside class="notes">
+              Some tests can be run only when a parameter is provided
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Mocks</h3>
+            Mocks are callable and create attributes as new mocks when you
+            access them
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            Accessing the same attribute will always return the same mock.
+
+            ```
+            In [1]: from unittest import mock
+
+            In [2]: m = mock.Mock()
+
+            In [3]: m.get_users()
+            Out[3]: <Mock name='mock.get_users()' id='140454449888056'>
+
+            In [4]: m.get_users()
+            Out[4]: <Mock name='mock.get_users()' id='140454449888056'>
+
+            ```
+            </textarea>
+          </section>
+          <section>
+            <p>
+              <small>
+                Mocks record how you use them, allowing you to make assertions
+                about what your code has done to them
+              </small>
+            </p>
+
+            <pre><code>class Serializer:
+    def __init__(self, protocol):
+        self.protocol = protocol
+
+    def serialize(self, payload):
+        return self.protocol.serialize(payload)
+
+mock_protocol = mock.Mock()
+s = Serializer(mock_protocol)
+payload = {"name": "jon"}
+s.serialize(payload)
+mock_protocol.serialize.assert_called_with(payload)</code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>TDD</h3>
+            <ul>
+              <li>Robust and simpler code</li>
+              <li>Let the tests guide you, not requirements</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Requirement</h4>
+            <div class="fragment">
+              Generate status of a meetup
+
+              <ul>
+                <li>running: if it's happening now</li>
+                <li>over: it has already happen</li>
+                <li>coming_soon: if it has not happen yet</li>
+              </ul>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Given a Meetup class
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+              ```
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's test first for "running"
+
+              ```python
+              def test_meetup_is_running():
+                  start = datetime.now() - timedelta(days=1)
+                  end = datetime.now() + timedelta(days=1)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "running"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              E       AttributeError: 'Meetup' object has no attribute 'status'
+
+              tests/6_tdd_test.py:64: AttributeError
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make the first test pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                  1 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Now the next test for "coming_soon"
+
+              ```python
+              def test_meetup_is_coming_soon():
+                  start = datetime.now() + timedelta(days=1)
+                  end = datetime.now() + timedelta(days=2)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "coming_soon"
+              ```
+
+              <div class="fragment">
+
+
+              ```
+              E       AssertionError: assert 'running' == 'coming_soon'
+              E         - running
+              E         + coming_soon
+
+              tests/6_tdd_test.py:71: AssertionError
+
+              1 failed, 1 passed in 0.04s
+              ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make it pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > now:
+                          return "coming_soon"
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                2 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              And now the last test for "over"
+
+              ```python
+              def test_meetup_is_over():
+                  start = datetime.now() - timedelta(days=2)
+                  end = datetime.now() - timedelta(days=1)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "over"
+              ```
+              <div class="fragment">
+
+                ```
+                E       AssertionError: assert 'running' == 'over'
+                E         - running
+                E         + over
+
+                tests/6_tdd_test.py:78: AssertionError
+                1 failed, 2 passed in 0.04s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make it pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > now:
+                          return "coming_soon"
+                      elif now > self.end_time:
+                          return "over"
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                3 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Now...
+
+              <p class="fragment">Start and end could be swapped by devs</p>
+              <p class="fragment">Rise exception?</p>
+              <p class="fragment">Let Meetup check that somewhere else?</p>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's add a test for that here
+
+              ```python
+              def test_meetup_start_bigger_end_raises_exception():
+                  start = datetime.now() + timedelta(days=2)
+                  end = datetime.now() + timedelta(days=1)
+                  meetup = Meetup(start, end)
+
+                  with pytest.raises(TimeError):
+                      meetup.status()
+              ```
+
+              <div class="fragment">
+
+                ```
+                with pytest.raises(TimeError):
+                >           meetup.status()
+                E           Failed: DID NOT RAISE <class '6_tdd_test.TimeError'>
+
+                tests/6_tdd_test.py:87: Failed
+                1 failed, 3 passed in 0.03s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              class TimeError(Exception):
+                  ...
+
+              class Meetup:
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > self.end_time:
+                          raise TimeError("Start is bigger than end")
+
+                      if self.start_time > now:
+                          return "coming_soon"
+                      elif now > self.end_time:
+                          return "over"
+                      return "running"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              #### They pass
+
+              ```
+              4 passed in 0.02s
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Can we refactor the tests?
+
+              <p class="fragment">
+                Yes!
+                <br>
+                The tests are doing the same!
+                <br>
+                We can use parametrize!
+              </p>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              [(
+                  datetime.now() - timedelta(days=1),
+                  datetime.now() + timedelta(days=1),
+                  "running"
+                ),
+                (
+                  datetime.now() + timedelta(days=1),
+                  datetime.now() + timedelta(days=2),
+                  "coming_soon",
+                ),
+                (
+                  datetime.now() - timedelta(days=2),
+                  datetime.now() - timedelta(days=1),
+                  "over"
+                )]
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              @pytest.mark.parametrize("start,end,expected", TIME_VARIATIONS)
+              def test_meetup_status(start, end, expected):
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == expected
+              ```
+              ```
+              4 passed in 0.02s
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              #### Does it look better?
+              <p class="fragment">I don't know</p>
+              <p class="fragment">Devs should chose wisely</p>
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <h3>Refactoring with tests in mind</h3>
+          <ul>
+            <li class="fragment">Benefit composition over inheritance</li>
+            <li class="fragment">Easy to test usually means easy to use</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Plugins</h3>
+          <ul>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://pypi.org/project/pytest-django/"
+              >
+                Pytest Django
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://pypi.python.org/pypi/pytest-cov"
+              >
+                Pytest Coverage
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/pytest-dev/pytest-asyncio"
+              >
+                Pytest Asyncio
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Resources</h3>
+          <ul>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.pytest.org/en/latest/contents.html"
+                >Pytest Docs</a
+              >
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"
+              >
+                classic xunit-style setup
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://leanpub.com/clean-architectures-in-python"
+              >
+                Free Book: Clean architectures in Python
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Questions?</h3>
+          <div class="container">
+            <div class="col">
+              <ul>
+                <li>
+                  Twitter:
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://twitter.com/santiwilly"
+                    >@santiwilly</a
+                  >
+                </li>
+                <li>
+                  Github:
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://github.com/Woile"
+                    >Woile</a
+                  >
+                </li>
+                <li class="fragment">Thanks!</li>
+              </ul>
+            </div>
+            <div class="col">
+              <img src="./images/questions.gif" alt="questions" />
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+    <script src="/twemoji.min.js"></script>
+
+    <script>
+      Reveal.registerPlugin("myPlugin", {
+        init: () => {
+          return new Promise(resolve => setTimeout(resolve, 3000));
+        }
+      });
+      Reveal.addEventListener("ready", () =>
+        console.log("Three seconds later...")
+      );
+      Reveal.initialize({
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ],
+        markdown: {
+          smartypants: true
+        },
+        history: true
+      });
+      twemoji.parse(document.body);
+    </script>
+  </body>
+</html>

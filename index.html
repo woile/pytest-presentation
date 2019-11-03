@@ -79,11 +79,9 @@
         </section>
         <section>
           <h3>About me</h3>
-          <div class="fragment">
-            <p>Santiago Fraire</p>
-            <p>Software Engineer</p>
-            <p>🇦🇷 ➡️ 🇳🇱</p>
-          </div>
+          <p>Santiago Fraire</p>
+          <p>Software Engineer</p>
+          <p>🇦🇷 ➡️ 🇳🇱</p>
         </section>
         <section>
           <h3>About testing</h3>
@@ -314,8 +312,6 @@ def test_location():
             <textarea data-template>
               ### FIXTURES
 
-              <div class="fragment">
-
               **Attachable functions**
 
               ```python
@@ -328,8 +324,6 @@ def test_location():
               ```
 
               [docs](https://docs.pytest.org/en/latest/fixture.html)
-
-              </div>
 
             </textarea>
             <aside class="notes">
@@ -526,7 +520,301 @@ mock_protocol.serialize.assert_called_with(payload)</code></pre>
             </ul>
           </section>
           <section>
+            <h4>Requirement</h4>
+            <div class="fragment">
+              Generate status of a meetup
 
+              <ul>
+                <li>running: if it's happening now</li>
+                <li>over: it has already happen</li>
+                <li>coming_soon: if it has not happen yet</li>
+              </ul>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Given a Meetup class
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+              ```
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's test first for "running"
+
+              ```python
+              def test_meetup_is_running():
+                  start = datetime.now() - timedelta(days=1)
+                  end = datetime.now() + timedelta(days=1)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "running"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              E       AttributeError: 'Meetup' object has no attribute 'status'
+
+              tests/6_tdd_test.py:64: AttributeError
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make the first test pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                  1 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Now the next test for "coming_soon"
+
+              ```python
+              def test_meetup_is_coming_soon():
+                  start = datetime.now() + timedelta(days=1)
+                  end = datetime.now() + timedelta(days=2)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "coming_soon"
+              ```
+
+              <div class="fragment">
+
+
+              ```
+              E       AssertionError: assert 'running' == 'coming_soon'
+              E         - running
+              E         + coming_soon
+
+              tests/6_tdd_test.py:71: AssertionError
+
+              1 failed, 1 passed in 0.04s
+              ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make it pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > now:
+                          return "coming_soon"
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                2 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              And now the last test for "over"
+
+              ```python
+              def test_meetup_is_over():
+                  start = datetime.now() - timedelta(days=2)
+                  end = datetime.now() - timedelta(days=1)
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == "over"
+              ```
+              <div class="fragment">
+
+                ```
+                E       AssertionError: assert 'running' == 'over'
+                E         - running
+                E         + over
+
+                tests/6_tdd_test.py:78: AssertionError
+                1 failed, 2 passed in 0.04s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's make it pass
+
+              ```python
+              class Meetup:
+                  def __init__(self, start_time, end_time):
+                      self.start_time = start_time
+                      self.end_time = end_time
+
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > now:
+                          return "coming_soon"
+                      elif now > self.end_time:
+                          return "over"
+                      return "running"
+              ```
+
+              <div class="fragment">
+
+                ```
+                3 passed in 0.02s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Now...
+
+              <p class="fragment">Start and end could be swapped by devs</p>
+              <p class="fragment">Rise exception?</p>
+              <p class="fragment">Let Meetup check that somewhere else?</p>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Let's add a test for that here
+
+              ```python
+              def test_meetup_start_bigger_end_raises_exception():
+                  start = datetime.now() + timedelta(days=2)
+                  end = datetime.now() + timedelta(days=1)
+                  meetup = Meetup(start, end)
+
+                  with pytest.raises(TimeError):
+                      meetup.status()
+              ```
+
+              <div class="fragment">
+
+                ```
+                with pytest.raises(TimeError):
+                >           meetup.status()
+                E           Failed: DID NOT RAISE <class '6_tdd_test.TimeError'>
+
+                tests/6_tdd_test.py:87: Failed
+                1 failed, 3 passed in 0.03s
+                ```
+
+              </div>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              class TimeError(Exception):
+                  ...
+
+              class Meetup:
+                  def status(self):
+                      now = datetime.now()
+                      if self.start_time > self.end_time:
+                          raise TimeError("Start is bigger than end")
+
+                      if self.start_time > now:
+                          return "coming_soon"
+                      elif now > self.end_time:
+                          return "over"
+                      return "running"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              #### They pass
+
+              ```
+              4 passed in 0.02s
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              Can we refactor the tests?
+
+              <p class="fragment">
+                Yes!
+                <br>
+                The tests are doing the same!
+                <br>
+                We can use parametrize!
+              </p>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              [(
+                  datetime.now() - timedelta(days=1),
+                  datetime.now() + timedelta(days=1),
+                  "running"
+                ),
+                (
+                  datetime.now() + timedelta(days=1),
+                  datetime.now() + timedelta(days=2),
+                  "coming_soon",
+                ),
+                (
+                  datetime.now() - timedelta(days=2),
+                  datetime.now() - timedelta(days=1),
+                  "over"
+                )]
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```python
+              @pytest.mark.parametrize("start,end,expected", TIME_VARIATIONS)
+              def test_meetup_status(start, end, expected):
+                  meetup = Meetup(start, end)
+                  assert meetup.status() == expected
+              ```
+              ```
+              4 passed in 0.02s
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              #### Does it look better?
+              <p class="fragment">I don't know</p>
+              <p class="fragment">Devs should chose wisely</p>
+            </textarea>
           </section>
         </section>
         <section>
