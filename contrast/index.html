@@ -439,6 +439,11 @@ def test_multi_customers(new_customer):
 
     assert customer_1["name"] == "jon"
     assert customer_2["name"] == "mike"</code></pre>
+          <a
+            href="https://factoryboy.readthedocs.io/en/latest/"
+            class="fragment"
+            >factoryboy</a
+          >
         </section>
         <section>
           <h3>PARAMETRIZE</h3>
@@ -550,9 +555,15 @@ payload = {"name": "jon"}
 s.serialize(payload)
 mock_protocol.serialize.assert_called_with(payload)</code></pre>
 
-            <span class="fragment current-only" data-code-focus="2">No hardcoded protocol</span>
-            <span class="fragment current-only" data-code-focus="9">Our mock as protocol</span>
-            <span class="fragment current-only" data-code-focus="12">Assert mock was called</span>
+            <span class="fragment current-only" data-code-focus="2"
+              >No hardcoded protocol</span
+            >
+            <span class="fragment current-only" data-code-focus="9"
+              >Our mock as protocol</span
+            >
+            <span class="fragment current-only" data-code-focus="12"
+              >Assert mock was called</span
+            >
           </section>
         </section>
         <section>
